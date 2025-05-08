@@ -4,32 +4,64 @@ Welcome to the SharePoint Code Editor WebPart – a powerful, flexible, and comm
 ## ✨ Features
 
 ### 🧪 Sandbox Mode
-Run your code safely in an isolated <iframe> environment. This prevents broken or untrusted code from affecting the rest of your SharePoint page.
+Run your code safely in an isolated `<iframe>` environment. This prevents broken or untrusted code from affecting the rest of your SharePoint page.
 
 ### 👁️ Visibility Control
 Target specific devices where you want your webpart to appear, wether its for Desktop, Tablet or Mobile Devices.
 
 ### 🛠️ Built-in Testing Tools
-If something goes wrong, no need to panic. Simply add ?spdisablecode=1 to your URL to instantly disable the web part and regain control.
+If something goes wrong, no need to panic. Simply add `?spdisablecode=1` (or `&spdisablecode=1` if the URL has other parameters) to your URL to instantly disable the web part and regain control.
 
 ### 🔖 Smart Tags (Dynamic Variables)
-Our favorite feature! Define variables inside your code using special tags, and they’ll appear as editable fields in the UI. This allows non-technical users to easily update code behavior without touching the code, making it portable, reusable, and shareable.
+Our favorite feature! Define variables inside your code using special tags, and they’ll appear as editable fields in the UI. This allows non-technical users to easily update code behavior without touching the code, making it portable, reusable, and shareable, here's how you can use it:
+
+🧠 Syntax
+```
+/*{FieldN - LABEL (Default: Default_Value)}*/
+```
+
+* `FieldN` — a unique field key where `N` ranges from `0` to `19` (up to 20 custom fields per web part).
+* `LABEL` — the name shown next to the input field in the UI.
+
+* `(Default: Default_Value)` — (optional) a fallback value that will be used if no input is provided.
+
+✅ Examples
+
+in HTML
+```
+<h1>/*{Field0 - Title (Default: Welcome to our Portal)}*/</h1>
+```
+
+in JavaScript
+```
+const color = '/*{Field1 - Text Color (Default: #333)}*/';
+```
+
+in CSS
+```
+.example-element {
+    font-family: sans-serif;
+    font-size: 30px /*{Field1 - CSS Field (Default: 30px)}*/;
+    text-align: center;
+}
+```
+
 
 ### ⬇️ Import & Export
 Easily export your code (HTML, CSS, JS) from one instance and import it into another with a single click. Perfect for replicating setups across multiple pages or sites.
 
-### 📥 Download
-Ready to start using the Code Editor WebPart?
+## 📥 Download
 
-👉 Download the latest version here
+👉 Download the latest [Code WebPart](https://www.shortpoint.com/code-webpart)
+
 Deploy it to your SharePoint site and start customizing your pages in minutes.
 
-### 💡 Code Samples
+## 💡 Code Samples
 Looking for inspiration or ready-to-use snippets?
 
 📂 Check out our Code Samples Directory — a growing collection of free, copy-paste-ready examples covering various use cases, from banners to calculators and more.
 
-### 💬 Ideas & Feedback
+## 💬 Ideas & Feedback
 Have an idea to improve the web part? Found a bug? Want to share how you're using it?
 
 We'd love to hear from you! Join the conversation in our GitHub Discussions — it's the best place to:
@@ -43,4 +75,4 @@ Your input helps shape the future of this tool for the entire SharePoint communi
 
 
 🧡 A Gift to the Community
-This project is built and maintained with love for the SharePoint ecosystem. We hope it empowers you to do more with less.
+This project is built and maintained with love for the SharePoint team. We hope it empowers you to do more with less.
