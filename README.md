@@ -46,6 +46,9 @@ in CSS
 }
 ```
 
+Here's a quick live demonstration on how to embed a configurable stock widget into a SharePoint Page, you can find the [source also here](/ShortPoint/code-webpart/blob/main/samples/stock-widget.html)
+
+![Demo of Code Web Part](https://p69.f3.n0.cdn.zight.com/items/bLu2x7vp/a8da9219-0019-49a3-b245-515cfa252de2.gif?source=viewer&v=694a927cf4701cc575075416eefe1cc0)
 
 ### ⬇️ Import & Export
 Easily export your code (HTML, CSS, JS) from one instance and import it into another with a single click. Perfect for replicating setups across multiple pages or sites.
