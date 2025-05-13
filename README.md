@@ -67,11 +67,11 @@ Looking for inspiration or ready-to-use snippets?
 ## 💬 Ideas & Feedback
 Have an idea to improve the web part? Found a bug? Want to share how you're using it?
 
-We'd love to hear from you! Join the conversation in our [GitHub Discussions Page](/ShortPoint/code-webpart/discussions/) — it's the best place to:
+We'd love to hear from you! Join the conversation in our [GitHub Discussions Page](./discussions/) — it's the best place to:
 
- * [Ask questions you’re wondering about](/ShortPoint/code-webpart/discussions/categories/q-a) and Engage with other community members.
-  * [Share ideas](/ShortPoint/code-webpart/discussions/categories/ideas): Share ideas for new features, and we will build it
-  * [Show and tell](/ShortPoint/code-webpart/discussions/categories/show-and-tell): built something useful using the code webpart, showcase your work here!
+ * [Ask questions you’re wondering about](./discussions/categories/q-a) and Engage with other community members.
+  * [Share ideas](./discussions/categories/ideas): Share ideas for new features, and we will build it
+  * [Show and tell](./discussions/categories/show-and-tell): built something useful using the code webpart, showcase your work here!
 
 Your input helps shape the future of this tool for the entire SharePoint community.
 
