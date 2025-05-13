@@ -67,7 +67,7 @@ Looking for inspiration or ready-to-use snippets?
 ## 💬 Ideas & Feedback
 Have an idea to improve the web part? Found a bug? Want to share how you're using it?
 
-We'd love to hear from you! Join the conversation in our [GitHub Discussions Page]((../../discussions) — it's the best place to:
+We'd love to hear from you! Join the conversation in our [GitHub Discussions Page](../../discussions) — it's the best place to:
 
  * [Ask questions you’re wondering about](../../discussions/categories/q-a) and Engage with other community members.
   * [Share ideas](../../discussions/categories/ideas): Share ideas for new features, and we will build it
