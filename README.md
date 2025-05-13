@@ -59,7 +59,7 @@ Deploy it to your SharePoint site and start customizing your pages in minutes.
 ## 💡 Code Samples
 Looking for inspiration or ready-to-use snippets?
 
-📂 Check out our Code Samples Directory — a growing collection of free, copy-paste-ready examples covering various use cases, from banners to calculators and more.
+📂 Check out our [Code Samples Directory](/ShortPoint/code-webpart/tree/main/samples) — a growing collection of free, copy-paste-ready examples covering various use cases, from banners to calculators and more.
 
 ## 💬 Ideas & Feedback
 Have an idea to improve the web part? Found a bug? Want to share how you're using it?
