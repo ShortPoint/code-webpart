@@ -17,31 +17,31 @@ Our favorite feature! Define variables inside your code using special tags, and 
 
 🧠 Syntax
 ```
-/*{FieldN - LABEL (Default: Default_Value)}*/
+/* FieldN ||| LABEL ||| DEFAULT_VALUE */
 ```
 
 * `FieldN` — a unique field key where `N` ranges from `0` to `19` (up to 20 custom fields per web part).
 * `LABEL` — the name shown next to the input field in the UI.
 
-* `(Default: Default_Value)` — (optional) a fallback value that will be used if no input is provided.
+* `DEFAULT_VALUE` — (optional) a fallback value that will be used if no input is provided.
 
 **Examples**
 
 in HTML
 ```
-<h1>/*{Field0 - Title (Default: Welcome to our Portal)}*/</h1>
+<h1>/* Field0 ||| Title ||| Welcome to our Portal */</h1>
 ```
 
 in JavaScript
 ```
-const color = '/*{Field1 - Text Color (Default: #333)}*/';
+const color = '/* Field1 ||| Text Color ||| #333 */';
 ```
 
 in CSS
 ```
 .example-element {
     font-family: sans-serif;
-    font-size: 30px /*{Field1 - CSS Field (Default: 30px)}*/;
+    font-size: /* Field2 ||| CSS Field ||| 30px */;
     text-align: center;
 }
 ```

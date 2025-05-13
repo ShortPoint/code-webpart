@@ -1,0 +1,5 @@
+[class*=headerRow-] {
+	background-image: url(/* Field1 ||| Background Image Link ||| https://shortpoint-templates.s3.us-west-2.amazonaws.com/Airlines-1/airlines_1_6.jpeg */);
+	background-position: center;
+	background-size: cover;
+}
