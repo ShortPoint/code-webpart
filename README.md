@@ -46,7 +46,7 @@ in CSS
 }
 ```
 
-Here's a quick live demonstration on how to embed a configurable stock widget into a SharePoint Page, you can find the [source also here](/ShortPoint/code-webpart/blob/main/samples/stock-widget.html)
+Here's a quick live demonstration on how to embed a configurable stock widget into a SharePoint Page, you can find the [source also here](./samples/stock-widget.html)
 
 ![Demo of Code Web Part](https://p69.f3.n0.cdn.zight.com/items/bLu2x7vp/a8da9219-0019-49a3-b245-515cfa252de2.gif?source=viewer&v=694a927cf4701cc575075416eefe1cc0)
 
@@ -62,7 +62,7 @@ Deploy it to your SharePoint site and start customizing your pages in minutes.
 ## 💡 Code Samples
 Looking for inspiration or ready-to-use snippets?
 
-📂 Check out our [Code Samples Directory](/ShortPoint/code-webpart/tree/main/samples) — a growing collection of free, copy-paste-ready examples covering various use cases, from banners to calculators and more.
+📂 Check out our [Code Samples Directory](./samples) — a growing collection of free, copy-paste-ready examples covering various use cases, from banners to calculators and more.
 
 ## 💬 Ideas & Feedback
 Have an idea to improve the web part? Found a bug? Want to share how you're using it?
