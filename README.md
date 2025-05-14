@@ -1,5 +1,5 @@
-# 🧩 SharePoint Code Editor WebPart
-Welcome to the SharePoint Code Editor WebPart – a powerful, flexible, and community-first solution that empowers you to write and embed custom code (HTML, CSS, and JavaScript) directly into SharePoint pages. Designed with safety, usability, and collaboration in mind, this web part is completely free and open to the SharePoint community.
+# 🧩 ShortPoint Code Editor WebPart
+Welcome to the ShortPoint Code Editor WebPart – a powerful, flexible, and community-first solution that empowers you to write and embed custom code (HTML, CSS, and JavaScript) directly into SharePoint pages. Designed with safety, usability, and collaboration in mind, this web part is completely free and open to the SharePoint community.
 
 ## ✨ Features
 
@@ -77,4 +77,4 @@ Your input helps shape the future of this tool for the entire SharePoint communi
 
 
 🧡 A Gift to the Community
-This project is built and maintained with love for the SharePoint team. We hope it empowers you to do more with less.
+This project is built and maintained with love from the ShortPoint team. We hope it empowers you to do more with less.
