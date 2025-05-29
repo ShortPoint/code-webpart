@@ -1,6 +1,9 @@
 # 🧩 ShortPoint Code Editor WebPart
 This is a prayer widget that you can use to display the prayer times for your city, it uses the [Aladhan API](https://aladhan.com/prayer-times-api) to get the prayer times and displays them in a widget.
 
+<img width="625" alt="image" src="https://github.com/user-attachments/assets/84f5bb34-27d2-488e-b5c0-63915bc03480" />
+
+
 ## Features
 
 - Display the prayer times for the selected city
