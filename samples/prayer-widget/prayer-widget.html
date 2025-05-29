@@ -1,0 +1,348 @@
+<script>
+    (function () {
+        // ==== Set the location, address, and tune prayer times below =====
+
+        let locationText = "/* Field0 ||| Location (Default: Abu Dhabi, UAE) ||| Abu Dhabi, UAE */";
+        let address = "/* Field1 ||| Address (Default: Abu Dhabi, United Arab Emirates) ||| Abu Dhabi, United Arab Emirates */";
+
+        let imsakTuning = "/* Field2 ||| Imsak Adjustment ||| 0 */";
+        let fajrTuning = "/* Field3 ||| Fajr Adjustment ||| 1 */";
+        let sunriseTuning = "/* Field4 ||| Sunrise Adjustment ||| -3 */";
+        let dhuhrTuning = "/* Field5 ||| Dhuhr Adjustment ||| 0 */";
+        let asrTuning = "/* Field6 ||| Asr Adjustment ||| 2 */";
+        let maghribTuning = "/* Field7 ||| Maghrib Adjustment ||| 0 */";
+        let sunsetTuning = "/* Field8 ||| Sunset Adjustment ||| 0 */";
+        let ishaTuning = "/* Field9 ||| Isha Adjustment ||| 1 */";
+
+        // Adjust prayer timing "Imsak, Fajr, Sunrise, Dhuhr, Asr, Maghrib (tuned below), Sunset, Isha, Midnight";
+        let prayerTimesTuning = `${imsakTuning}, ${fajrTuning}, ${sunriseTuning}, ${dhuhrTuning}, ${asrTuning}, 0, ${sunsetTuning}, ${ishaTuning}, 0`;
+
+        // ==== Set the location, address, and tune prayer times above =====
+
+        // Fetching prayers
+        let date = new Date();
+        let todayDate = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+
+        document.querySelector("#location-display").innerHTML = locationText;
+
+        if (window.prayers == null) {
+            fetch(`https://api.aladhan.com/v1/timingsByAddress/${todayDate}?address=${encodeURI(address)}&method=16&latitudeAdjustmentMethod=3&school=0&adjustment=1&methodSettings=18%2C4.5%2C90%20min&iso8601=false&midnightMode=0&tune=${encodeURI(prayerTimesTuning.replaceAll(" ", ""))}&_=1742201065135`)
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log(data);
+                    let timings = data.data.timings;
+
+                    // Turn the timings into an array of objects like [{prayer: "Fajr", time: "2025-03-17T05:12:00+04:00"}, ...]
+                    const prayerTimesArray = Object.entries(timings).map(([prayer, time]) => ({
+                        prayer,
+                        time,
+                    }));
+
+                    // Keep only Fajr, Dhuhr, Asr, Maghrib, Isha
+                    const prayers = prayerTimesArray.filter(({ prayer }) => ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"].includes(prayer));
+
+                    // #region Icons
+                    prayers[0].icon = `<svg xmlns="http://www.w3.org/2000/svg" width="29.999" height="26.698" viewBox="0 0 29.999 26.698"> <g id="Group_32021" data-name="Group 32021" transform="translate(-1052 -341.002)"> <path id="Subtraction_6" data-name="Subtraction 6" d="M-16128.233,160h0l-2.819,0a7.221,7.221,0,0,1-1.2-4,7.267,7.267,0,0,1,7.259-7.259,7.267,7.267,0,0,1,7.259,7.259,7.218,7.218,0,0,1-1.2,4h-2.82a5.121,5.121,0,0,0,1.913-4,5.117,5.117,0,0,0-1.5-3.647,5.12,5.12,0,0,0-3.646-1.5,5.12,5.12,0,0,0-3.646,1.5,5.117,5.117,0,0,0-1.5,3.647,5.12,5.12,0,0,0,1.913,4Zm17.18-2.947h-3.346a1.07,1.07,0,0,1-1.058-1.053,1.072,1.072,0,0,1,1.058-1.057h3.346A1.069,1.069,0,0,1-16110,156,1.067,1.067,0,0,1-16111.054,157.054Zm-24.547,0h-3.342A1.07,1.07,0,0,1-16140,156a1.072,1.072,0,0,1,1.058-1.057h3.342a1.069,1.069,0,0,1,1.053,1.057A1.067,1.067,0,0,1-16135.6,157.054Zm18.078-7.477a1.257,1.257,0,0,1-.75-.308,1.094,1.094,0,0,1,0-1.495l2.378-2.374a1.062,1.062,0,0,1,.748-.3,1.06,1.06,0,0,1,.747.3,1.047,1.047,0,0,1,.3.743,1.062,1.062,0,0,1-.3.752l-2.374,2.374A1.025,1.025,0,0,1-16117.522,149.577Zm-14.955,0a1.023,1.023,0,0,1-.749-.308l-2.374-2.374a1.058,1.058,0,0,1-.3-.752,1.051,1.051,0,0,1,.3-.743,1.049,1.049,0,0,1,.746-.3,1.059,1.059,0,0,1,.748.3l2.374,2.374a1.058,1.058,0,0,1,.3.747,1.058,1.058,0,0,1-.3.747A1.007,1.007,0,0,1-16132.478,149.577Zm7.478-3.123a1.07,1.07,0,0,1-1.058-1.053v-3.346A1.07,1.07,0,0,1-16125,141a1.069,1.069,0,0,1,1.057,1.053V145.4A1.069,1.069,0,0,1-16125,146.454Z" transform="translate(17192 200)"/> <rect id="Rectangle_563" data-name="Rectangle 563" width="25" height="1.7" rx="0.85" transform="translate(1055 362)" /> </g> </svg>`;
+                    prayers[1].icon = `<svg xmlns="http://www.w3.org/2000/svg" width="28.551" height="21.699" viewBox="0 0 28.551 21.699"> <g id="Group_32020" data-name="Group 32020" transform="translate(-985.999 -317)"> <path id="Subtraction_5" data-name="Subtraction 5" d="M-16233.052,225h-2.139a7.255,7.255,0,0,1,2.4-4.453,7.255,7.255,0,0,1,4.787-1.8,7.25,7.25,0,0,1,4.785,1.8,7.256,7.256,0,0,1,2.4,4.452h-2.139a5.132,5.132,0,0,0-1.754-2.963,5.16,5.16,0,0,0-3.295-1.183,5.169,5.169,0,0,0-3.3,1.183,5.135,5.135,0,0,0-1.754,2.963Zm19.324,0h-4.007a1.018,1.018,0,0,1,.334-.057h3.343a1.032,1.032,0,0,1,.33.055Zm-24.546,0h-4a1.018,1.018,0,0,1,.334-.057h3.343a1.025,1.025,0,0,1,.328.055Zm17.751-5.422a1.24,1.24,0,0,1-.746-.31,1.09,1.09,0,0,1,0-1.5l2.372-2.372a1.061,1.061,0,0,1,.748-.3,1.061,1.061,0,0,1,.748.3,1.061,1.061,0,0,1,.3.748,1.061,1.061,0,0,1-.3.748l-2.372,2.372A1.042,1.042,0,0,1-16220.522,219.578Zm-14.957,0a1.038,1.038,0,0,1-.746-.31l-2.376-2.372a1.061,1.061,0,0,1-.3-.748,1.061,1.061,0,0,1,.3-.748,1.058,1.058,0,0,1,.748-.3,1.061,1.061,0,0,1,.748.3l2.376,2.372a1.09,1.09,0,0,1,0,1.5A1.038,1.038,0,0,1-16235.479,219.578Zm7.48-3.123a1.07,1.07,0,0,1-1.056-1.056v-3.343A1.07,1.07,0,0,1-16228,211a1.07,1.07,0,0,1,1.056,1.056V215.4A1.07,1.07,0,0,1-16228,216.456Z" transform="translate(17228.277 105.999)"/> <rect id="Rectangle_560" data-name="Rectangle 560" width="25" height="1.7" rx="0.85" transform="translate(988.278 332.999)" /> <rect id="Rectangle_561" data-name="Rectangle 561" width="15" height="1.7" rx="0.85" transform="translate(993.278 336.999)" /> </g> </svg>`;
+                    prayers[2].icon = `<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"><g id="Group_32019" data-name="Group 32019" transform="translate(-1279 -497)"><path id="sun" d="M31.4,24.142A7.258,7.258,0,1,0,38.658,31.4,7.265,7.265,0,0,0,31.4,24.142Zm0,12.4A5.147,5.147,0,1,1,36.547,31.4,5.153,5.153,0,0,1,31.4,36.547Zm0-14.692A1.07,1.07,0,0,0,32.456,20.8V17.456a1.056,1.056,0,0,0-2.111,0V20.8A1.07,1.07,0,0,0,31.4,21.855Zm0,19.091A1.07,1.07,0,0,0,30.344,42v3.343a1.056,1.056,0,0,0,2.111,0V42A1.07,1.07,0,0,0,31.4,40.945Zm7.478-15.968a1.03,1.03,0,0,0,.748-.308L42,22.294a1.058,1.058,0,0,0-1.5-1.5L38.13,23.174a1.09,1.09,0,0,0,0,1.5,1.248,1.248,0,0,0,.748.308ZM23.174,38.13,20.8,40.506a1.09,1.09,0,0,0,0,1.5,1.062,1.062,0,0,0,1.5,0l2.375-2.375a1.058,1.058,0,1,0-1.5-1.5Zm22.17-7.786H42a1.056,1.056,0,0,0,0,2.111h3.343a1.056,1.056,0,0,0,0-2.111ZM21.855,31.4A1.07,1.07,0,0,0,20.8,30.344H17.456a1.056,1.056,0,0,0,0,2.111H20.8A1.07,1.07,0,0,0,21.855,31.4Zm17.771,6.73a1.058,1.058,0,0,0-1.5,1.5L40.506,42A1.062,1.062,0,0,0,42,42a1.09,1.09,0,0,0,0-1.5ZM23.174,24.67a1.062,1.062,0,0,0,1.5,0,1.09,1.09,0,0,0,0-1.5L22.294,20.8a1.058,1.058,0,0,0-1.5,1.5Z" transform="translate(1262.6 480.6)" /><path id="sun-2" data-name="sun" d="M31.4,24.142Zm0-2.287A1.07,1.07,0,0,0,32.456,20.8V17.456a1.056,1.056,0,0,0-2.111,0V20.8A1.07,1.07,0,0,0,31.4,21.855Zm0,19.091A1.07,1.07,0,0,0,30.344,42v3.343a1.056,1.056,0,0,0,2.111,0V42A1.07,1.07,0,0,0,31.4,40.945Zm7.478-15.968a1.03,1.03,0,0,0,.748-.308L42,22.294a1.058,1.058,0,0,0-1.5-1.5L38.13,23.174a1.09,1.09,0,0,0,0,1.5,1.248,1.248,0,0,0,.748.308ZM23.174,38.13,20.8,40.506a1.09,1.09,0,0,0,0,1.5,1.062,1.062,0,0,0,1.5,0l2.375-2.375a1.058,1.058,0,1,0-1.5-1.5Zm22.17-7.786H42a1.056,1.056,0,0,0,0,2.111h3.343a1.056,1.056,0,0,0,0-2.111ZM21.855,31.4A1.07,1.07,0,0,0,20.8,30.344H17.456a1.056,1.056,0,0,0,0,2.111H20.8A1.07,1.07,0,0,0,21.855,31.4Zm17.771,6.73a1.058,1.058,0,0,0-1.5,1.5L40.506,42A1.062,1.062,0,0,0,42,42a1.09,1.09,0,0,0,0-1.5ZM23.174,24.67a1.062,1.062,0,0,0,1.5,0,1.09,1.09,0,0,0,0-1.5L22.294,20.8a1.058,1.058,0,0,0-1.5,1.5Z" transform="translate(1262.6 480.6)"/></g></svg>`;
+                    prayers[3].icon = `<svg xmlns="http://www.w3.org/2000/svg" width="29.999" height="28.698" viewBox="0 0 29.999 28.698"> <g id="Group_32022" data-name="Group 32022" transform="translate(-1052 -459.002)"> <path id="Subtraction_7" data-name="Subtraction 7" d="M-16120.918,162h-8.164a7.264,7.264,0,0,1-3.177-6,7.267,7.267,0,0,1,7.259-7.259,7.267,7.267,0,0,1,7.259,7.259,7.265,7.265,0,0,1-3.176,6Zm-4.082-11.147a5.12,5.12,0,0,0-3.646,1.5,5.117,5.117,0,0,0-1.5,3.647,5.152,5.152,0,0,0,5.148,5.144,5.152,5.152,0,0,0,5.148-5.144,5.117,5.117,0,0,0-1.5-3.647A5.12,5.12,0,0,0-16125,150.853Zm13.946,6.2h-3.346a1.07,1.07,0,0,1-1.058-1.053,1.072,1.072,0,0,1,1.058-1.057h3.346A1.069,1.069,0,0,1-16110,156,1.067,1.067,0,0,1-16111.054,157.054Zm-24.547,0h-3.342A1.07,1.07,0,0,1-16140,156a1.072,1.072,0,0,1,1.058-1.057h3.342a1.069,1.069,0,0,1,1.053,1.057A1.067,1.067,0,0,1-16135.6,157.054Zm18.078-7.477a1.257,1.257,0,0,1-.75-.308,1.094,1.094,0,0,1,0-1.495l2.378-2.374a1.062,1.062,0,0,1,.748-.3,1.06,1.06,0,0,1,.747.3,1.047,1.047,0,0,1,.3.743,1.062,1.062,0,0,1-.3.752l-2.374,2.374A1.025,1.025,0,0,1-16117.522,149.577Zm-14.955,0a1.023,1.023,0,0,1-.749-.308l-2.374-2.374a1.058,1.058,0,0,1-.3-.752,1.051,1.051,0,0,1,.3-.743,1.049,1.049,0,0,1,.746-.3,1.059,1.059,0,0,1,.748.3l2.374,2.374a1.058,1.058,0,0,1,.3.747,1.058,1.058,0,0,1-.3.747A1.007,1.007,0,0,1-16132.478,149.577Zm7.478-3.123a1.07,1.07,0,0,1-1.058-1.053v-3.346A1.07,1.07,0,0,1-16125,141a1.069,1.069,0,0,1,1.057,1.053V145.4A1.069,1.069,0,0,1-16125,146.454Z" transform="translate(17192 318)"/> <rect id="Rectangle_566" data-name="Rectangle 566" width="25" height="1.7" rx="0.85" transform="translate(1055 482)" /> <rect id="Rectangle_565" data-name="Rectangle 565" width="15" height="1.7" rx="0.85" transform="translate(1060 486)" /> </g> </svg>`;
+                    prayers[4].icon = `<svg xmlns="http://www.w3.org/2000/svg" width="25" height="20.698" viewBox="0 0 25 20.698"> <g id="Group_32023" data-name="Group 32023" transform="translate(-1055 -525.002)"> <path id="Subtraction_8" data-name="Subtraction 8" d="M-16129.75,154h-2.229a7.32,7.32,0,0,1,2.575-3.766,7.187,7.187,0,0,1,4.4-1.492,7.191,7.191,0,0,1,4.4,1.492,7.318,7.318,0,0,1,2.574,3.765h-2.228a5.127,5.127,0,0,0-4.75-3.147,5.127,5.127,0,0,0-4.75,3.147Zm12.228-4.424a1.257,1.257,0,0,1-.75-.308,1.094,1.094,0,0,1,0-1.495l2.378-2.374a1.062,1.062,0,0,1,.748-.3,1.06,1.06,0,0,1,.747.3,1.047,1.047,0,0,1,.3.743,1.062,1.062,0,0,1-.3.752l-2.374,2.374A1.025,1.025,0,0,1-16117.522,149.577Zm-14.955,0a1.023,1.023,0,0,1-.749-.308l-2.374-2.374a1.058,1.058,0,0,1-.3-.752,1.051,1.051,0,0,1,.3-.743,1.049,1.049,0,0,1,.746-.3,1.059,1.059,0,0,1,.748.3l2.374,2.374a1.058,1.058,0,0,1,.3.747,1.058,1.058,0,0,1-.3.747A1.007,1.007,0,0,1-16132.478,149.577Zm7.478-3.123a1.07,1.07,0,0,1-1.058-1.053v-3.346A1.07,1.07,0,0,1-16125,141a1.069,1.069,0,0,1,1.057,1.053V145.4A1.069,1.069,0,0,1-16125,146.454Z" transform="translate(17192 384)"/> <rect id="Rectangle_568" data-name="Rectangle 568" width="25" height="1.7" rx="0.85" transform="translate(1055 540)" /> <rect id="Rectangle_569" data-name="Rectangle 569" width="15" height="1.7" rx="0.85" transform="translate(1060 544)" /> </g> </svg>`;
+                    prayers[5].icon = `<svg xmlns="http://www.w3.org/2000/svg" width="25" height="22.893" viewBox="0 0 25 22.893"> <g id="Group_32024" data-name="Group 32024" transform="translate(-1055 -580.807)"> <rect id="Rectangle_572" data-name="Rectangle 572" width="25" height="1.7" rx="0.85" transform="translate(1055 598)" /> <rect id="Rectangle_571" data-name="Rectangle 571" width="15" height="1.7" rx="0.85" transform="translate(1060 602)" /> <path id="moon" d="M16.335,10.107a.73.73,0,0,0-.766-.1,5.874,5.874,0,0,1-2.459.533,5.947,5.947,0,0,1-5.939-5.91,6.268,6.268,0,0,1,.182-1.459.73.73,0,0,0-.97-.825A7.4,7.4,0,1,0,16.6,10.873.73.73,0,0,0,16.335,10.107ZM9.4,14.988A5.939,5.939,0,0,1,5.711,4.43v.2a7.406,7.406,0,0,0,7.4,7.4,7.143,7.143,0,0,0,1.532-.161A5.918,5.918,0,0,1,9.4,15.017Z" transform="translate(1058.377 578.51)"/> </g> </svg>`;
+                    // #endregion
+
+                    // Adjusting maghrib timing here due to bug with aladhan.com's api not tuning not working for maghrib
+                    prayers[4].time = adjustTimeByMinutes(prayers[4].time, parseInt(maghribTuning));
+
+                    window.prayers = prayers;
+
+                    // Initialize the widget
+                    updateTimeInHeader(prayers);
+                    renderPrayers(prayers);
+
+                    updateCountdown(prayers);
+                });
+        } else {
+            updateTimeInHeader(prayers);
+            renderPrayers(prayers);
+            updateCountdown(prayers);
+        }
+    })();
+
+    function updateCountdown(prayers) {
+        const now = new Date();
+        const nextPrayerIndex = getNextPrayer(prayers);
+        const nextPrayer = prayers[nextPrayerIndex];
+        const nextTime = formatTimeForComparison(nextPrayer.time);
+
+        let targetDate = new Date();
+        targetDate.setHours(nextTime.hours, nextTime.minutes, 0);
+
+        // If it's already past the time for the next prayer today,
+        // the countdown should be for tomorrow's Fajr
+        if (targetDate < now && nextPrayerIndex === 0) {
+            targetDate.setDate(targetDate.getDate() + 1);
+        }
+
+        const timeDiff = targetDate - now;
+        const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+        document.getElementById("countdown").textContent = `Next prayer in: ${hours}h ${minutes}m ${seconds}s`;
+
+        setTimeout(updateCountdown, 1000);
+    }
+
+    function renderPrayers(prayers) {
+        const prayerList = document.getElementById("prayer-list");
+        const nextPrayerIndex = getNextPrayer(prayers);
+
+        prayers.forEach((prayer, index) => {
+            const li = document.createElement("li");
+            li.className = "prayer-item" + (index === nextPrayerIndex ? " next" : "");
+
+            li.innerHTML = `
+                <div class="prayer-name">
+                    <div class="prayer-icon">${prayer.icon}</div>
+                ${prayer.prayer}
+                ${index === nextPrayerIndex ? '<span class="next-prayer-badge">NEXT</span>' : ""}
+                </div>
+                <div class="prayer-time">${convert24hTo12h(prayer.time)}</div>
+            `;
+
+            prayerList.appendChild(li);
+        });
+    }
+
+    function getNextPrayer(prayers) {
+        const now = new Date();
+        const currentHours = now.getHours();
+        const currentMinutes = now.getMinutes();
+
+        // Find the next prayer
+        for (let i = 0; i < prayers.length; i++) {
+            const prayerTime = formatTimeForComparison(prayers[i].time);
+
+            if (prayerTime.hours > currentHours || (prayerTime.hours === currentHours && prayerTime.minutes > currentMinutes)) {
+                return i;
+            }
+        }
+
+        // If no prayer is found for today, the next prayer is Fajr tomorrow
+        return 0;
+    }
+
+    function updateTimeInHeader() {
+        const now = new Date();
+        const options = { weekday: "long", day: "numeric", month: "long", year: "numeric" };
+        document.getElementById("date-display").textContent = now.toLocaleDateString(undefined, options);
+    }
+
+    function formatTimeForComparison(timeStr) {
+        const [time, period] = timeStr.split(" ");
+        let [hours, minutes] = time.split(":").map(Number);
+
+        if (period === "PM" && hours !== 12) {
+            hours += 12;
+        } else if (period === "AM" && hours === 12) {
+            hours = 0;
+        }
+
+        return { hours, minutes };
+    }
+
+    function convert24hTo12h(time24h) {
+        if (!time24h || !/^\d{1,2}:\d{2}(:\d{2})?$/.test(time24h)) { // Check input valid
+            return "Invalid time format";
+        }
+
+        const [hours, minutes, seconds] = time24h.split(":"); // Split the time components
+
+        let hour = parseInt(hours, 10); // Convert hours to number for calculation
+        const period = hour >= 12 ? "PM" : "AM"; // Determine AM/PM
+
+        hour = hour % 12; // Convert to 12-hour format
+        hour = hour === 0 ? 12 : hour; // Convert 0 to 12 for 12 AM/PM
+
+        const formattedHour = hour.toString();
+        const formattedMinutes = minutes.padStart(2, "0"); // Format the time with leading zeros for minutes and seconds
+
+
+        if (seconds) { // Include seconds if provided
+            const formattedSeconds = seconds.padStart(2, "0");
+            return `${formattedHour}:${formattedMinutes}:${formattedSeconds} ${period}`;
+        }
+
+        return `${formattedHour}:${formattedMinutes} ${period}`;
+    }
+
+    function adjustTimeByMinutes(time24h, minutes) {
+        const [hours, mins] = time24h.split(":").map(Number);
+        const date = new Date();
+        date.setHours(hours, mins, 0, 0);
+        date.setMinutes(date.getMinutes() + minutes);
+
+        const adjustedHours = String(date.getHours()).padStart(2, "0");
+        const adjustedMinutes = String(date.getMinutes()).padStart(2, "0");
+
+        return `${adjustedHours}:${adjustedMinutes}`;
+    }
+
+    function getIcon(prayer) {
+
+    }
+
+</script>
+
+<div class="prayer-widget-wrapper">
+    <div class="prayer-widget">
+        <div class="widget-header">
+            <div class="date-display" id="date-display"></div>
+            <h2 class="widget-title">Prayer Times</h2>
+            <div class="location-display" id="location-display">UAE</div>
+            <div class="crescent">
+                <img alt="" src="data:image/png;base64,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">
+            </div>
+        </div>
+
+        <ul class="prayer-list" id="prayer-list">
+            <!-- Prayer items will be inserted by JavaScript -->
+        </ul>
+
+        <div class="footer">
+            <span id="countdown">Next prayer in: calculating...</span>
+        </div>
+    </div>
+</div>
+
+<style>
+    .prayer-widget-wrapper {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: fit-content;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        margin: 0;
+        /*background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);*/
+    }
+
+    .prayer-widget {
+        width: 340px;
+        background-color: #fff;
+        border-radius: 15px;
+        box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+    }
+
+    .widget-header {
+        background: linear-gradient(135deg, #1D976C 0%, #93F9B9 100%);
+        color: white;
+        padding: 20px;
+        text-align: center;
+        position: relative;
+    }
+
+    .date-display {
+        font-size: 14px;
+        opacity: 0.9;
+        margin-bottom: 5px;
+    }
+
+    .location-display {
+        font-size: 14px;
+        opacity: 0.85;
+    }
+
+    .widget-title {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .crescent {
+        width: 43px;
+        height: 43px;
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        opacity: 0.85;
+    }
+
+    .crescent img {
+        width: 43px;
+    }
+
+    .prayer-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .prayer-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 16px 20px;
+        border-bottom: 1px solid #f0f0f0;
+        transition: all 0.3s ease;
+    }
+
+    .prayer-item:last-child {
+        border-bottom: none;
+    }
+
+    .prayer-item.next {
+        background-color: rgba(29, 151, 108, 0.1);
+        font-weight: 600;
+    }
+
+    .prayer-name {
+        display: flex;
+        align-items: center;
+    }
+
+    .prayer-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .prayer-icon svg {
+        fill: #1D976C;
+        opacity: 0.8;
+    }
+
+    .prayer-time {
+        color: #444;
+    }
+
+    .next-prayer-badge {
+        background-color: #1D976C;
+        color: white;
+        font-size: 11px;
+        font-weight: 500;
+        padding: 3px 8px;
+        border-radius: 12px;
+        margin-left: 10px;
+    }
+
+    .footer {
+        padding: 15px 20px;
+        text-align: center;
+        font-size: 12px;
+        color: #777;
+        background-color: #f9f9f9;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 400px) {
+        .prayer-widget {
+            width: 90%;
+            max-width: 340px;
+        }
+    }
+</style>
